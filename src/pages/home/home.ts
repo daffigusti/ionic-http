@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {NavController, AlertController, LoadingController, Loading} from 'ionic-angular';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {DetailPage} from "../detail-page/detail-page";
 
 @Component({
   selector: 'page-home',
@@ -51,7 +52,8 @@ export class HomePage {
   }
 
   showDetail(id){
-    alert(id);
+    //alert(id);
+    this.navCtrl.push(DetailPage,{'id':id});
   }
 
 }

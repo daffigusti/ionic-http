@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams,AlertController, LoadingController, Loading } from 'ionic-angular';
+import {Http} from '@angular/http';
+import 'rxjs/add/operator/map';
 /**
  * Generated class for the DetailPage page.
  *
@@ -13,13 +14,58 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'detail-page.html',
 })
 export class DetailPage {
+  loading: Loading;
+  id:'';
+  address:{street:'',suite:'',city:'',zipcode:''};
+  user:{name:'',username:'',email:'',address:any,phone:'',website:''};
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public http: Http,
+              public alertCtrl: AlertController,
+              private loadingCtrl: LoadingController,) {
+    this.id = navParams.get("id");
+    this.user.address = this.address;
 
-  user:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.showLoading();
+    this.loadData();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
+
   }
+
+
+  loadData(){
+    this.http.get('https://jsonplaceholder.typicode.com/users/'+this.id).map(res => res.json()).subscribe(data => {
+      this.user = data;
+      console.log(data);
+      setTimeout(() => {
+        this.loading.dismiss();
+      });
+    },err => {
+      console.log("Oops!");
+      this.showAlert("Error","Load data error")
+      setTimeout(() => {
+        this.loading.dismiss();
+      });
+    });
+  }
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
+  }
+  showAlert(title,message) {
+    var alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+
 
 }
