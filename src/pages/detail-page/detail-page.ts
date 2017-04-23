@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, AlertController, LoadingController, Loading} from 'ionic-angular';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {MapPage} from "../map-page/map-page";
 /**
  * Generated class for the DetailPage page.
  *
@@ -17,9 +18,12 @@ export class DetailPage {
     loading: Loading;
     id = '';
     user = {
-        name: '-', username: '-', email: '-',
-        address: { street: '', suite: '', city: '', zipcode: '' },
-        phone: '-', website: ''
+        name: '-',
+        username: '-',
+        email: '-',
+        address: { street: '', suite: '', city: '', zipcode: '',geo:{lat:0,lng:0} },
+        phone: '-',
+        website: ''
     };
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -69,6 +73,11 @@ export class DetailPage {
         });
         alert.present();
     }
+
+    showMap(lat,long){
+        this.navCtrl.push(MapPage,{lat:lat,long:long});
+    }
+
 
 
 }

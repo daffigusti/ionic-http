@@ -50,5 +50,9 @@
          <h2>Website</h2>
          <p>{{user.website}}</p>
        </ion-item>
+
+       <ion-item text-wrap="">
+        <button ion-button block  (click)="showMap(user.address.geo.lat,user.address.geo.lng)"> SHOW MAP</button>
+       </ion-item>
      </ion-list>
 </ion-content>
